@@ -21,8 +21,9 @@ public class IplAnalyser {
     public IplAnalyser() {
         this.sortMap = new HashMap<>();
         this.iplCSVList = new ArrayList<>();
+
         this.sortMap.put(SortField.RUNS, Comparator.comparing(census -> census.player));
-        this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.avg));
+        this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.battingAvg));
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
         this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
         this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));

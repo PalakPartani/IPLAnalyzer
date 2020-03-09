@@ -50,7 +50,15 @@ public class IplAnalyserTest {
         iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
         String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
-        Assert.assertEquals(204.81, censusCSV[0].strikeRate, 0.0);
+        Assert.assertEquals("Andre Russell", censusCSV[0].player);
+    }
+
+    @Test
+    public void givenCricketMaximumAverages_WhenSorted_ShouldReturnBestStrikingRates() {
+        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.AVG);
+        IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
+        Assert.assertEquals(134.62, censusCSV[0].strikeRate, 0.0);
     }
 }
 
