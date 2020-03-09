@@ -22,7 +22,7 @@ public class IplAnalyser {
         this.sortMap = new HashMap<>();
         this.iplCSVList = new ArrayList<>();
 
-        this.sortMap.put(SortField.RUNS, Comparator.comparing(census -> census.player));
+        this.sortMap.put(SortField.RUNS, Comparator.comparing(census -> census.runs));
         this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.battingAvg));
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
         this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));

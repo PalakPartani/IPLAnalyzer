@@ -60,6 +60,14 @@ public class IplAnalyserTest {
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals(134.62, censusCSV[0].strikeRate, 0.0);
     }
+
+    @Test
+    public void givenCricketMostRunData_WhenSorted_ShouldReturnBestAverage() {
+        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.RUNS);
+        IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
+        Assert.assertEquals(69.2, censusCSV[0].battingAvg, 0.0);
+    }
 }
 
 

@@ -10,6 +10,7 @@ public class IPLDTOClass {
     public double battingAvg;
 
     public IPLDTOClass(IplRunsCSV iplRunsCSV) {
+        runs = iplRunsCSV.runs;
         battingAvg = iplRunsCSV.battingAvg;
         player = iplRunsCSV.player;
         strikeRate = iplRunsCSV.strikeRate;
