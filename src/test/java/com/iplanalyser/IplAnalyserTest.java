@@ -24,6 +24,19 @@ public class IplAnalyserTest {
         } catch (IplAnalyserException e) {
         }
     }
+
+    @Test
+    public void givenCricketStrikingRateData_WhenSorted_ShouldReturnMostStrikingRuns() {
+        try {
+            iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+            iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+            String loadIplData = iplAnalyser.getSortedCricketData(SortField.STRIKE_RATE);
+            IPLDTOClass[] censusCSV = new Gson().fromJson(loadIplData, IPLDTOClass[].class);
+            Assert.assertEquals(333.33, censusCSV[0].strikeRate, 0.0);
+        } catch (IplAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
