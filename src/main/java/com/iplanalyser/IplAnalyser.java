@@ -17,6 +17,7 @@ public class IplAnalyser {
     Map<String, IPLDTOClass> iplMap = new HashMap<>();
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
     SortField sortField;
+
     public IplAnalyser() {
         this.sortMap = new HashMap<>();
         this.iplCSVList = new ArrayList<>();
@@ -24,6 +25,7 @@ public class IplAnalyser {
         this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.avg));
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
         this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
+        this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
     }
 
     public Map<String, IPLDTOClass> loadIplData(String csvFilePath) {
@@ -39,7 +41,6 @@ public class IplAnalyser {
         } catch (IOException e) {
             throw new IplAnalyserException(e.getMessage(), IplAnalyserException.ExceptionType.CRICKET_FILE_PROBLEM);
         }
-
     }
 
     public String getSortedCricketData(SortField field) {

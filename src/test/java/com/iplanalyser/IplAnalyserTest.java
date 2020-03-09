@@ -44,6 +44,14 @@ public class IplAnalyserTest {
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals(83, censusCSV[0].four + censusCSV[0].six, 0.0);
     }
+
+    @Test
+    public void givenCricketMaximumFourAndSixes_WhenSorted_ShouldReturnBestStrikingRates() {
+        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX);
+        IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
+        Assert.assertEquals(204.81, censusCSV[0].strikeRate, 0.0);
+    }
 }
 
 
