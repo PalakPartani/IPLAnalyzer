@@ -13,5 +13,9 @@ public class IplRunsCSV {
     @CsvBindByName(column = "player", required = true)
     public String player;
 
+    @CsvBindByName(column = "4s", required = true)
+    public int four;
 
+    @CsvBindByName(column = "6s", required = true)
+    public int six;
 }

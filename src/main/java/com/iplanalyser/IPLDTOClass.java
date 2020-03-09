@@ -13,6 +13,8 @@ public class IPLDTOClass {
         battingAvg = iplRunsCSV.battingAvg;
         player = iplRunsCSV.player;
         strikeRate = iplRunsCSV.strikeRate;
+        four=iplRunsCSV.four;
+        six=iplRunsCSV.six;
     }
 
 }
