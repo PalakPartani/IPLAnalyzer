@@ -16,7 +16,7 @@ public class IplAnalyser {
     List<IPLDTOClass> iplCSVList = null;
     Map<String, IPLDTOClass> iplMap = new HashMap<>();
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
-    SortField sortField;
+    // SortField sortField;
 
     public IplAnalyser() {
         this.sortMap = new HashMap<>();
@@ -27,6 +27,23 @@ public class IplAnalyser {
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
         this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
         this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
+    }
+
+    public Map<String, IPLDTOClass> loadIplBallData(String csvFilePath) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IPLBallsCSV> iterator = csvBuilder.getCSVFileIterator(reader, IPLBallsCSV.class);
+            Iterable<IPLBallsCSV> csvIterable = () -> iterator;
+            StreamSupport.stream(csvIterable.spliterator(), false)
+                    .forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
+            iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+
+            System.out.println(iplMap);
+            iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+            return iplMap;
+        } catch (IOException e) {
+            throw new IplAnalyserException(e.getMessage(), IplAnalyserException.ExceptionType.CRICKET_FILE_PROBLEM);
+        }
     }
 
     public Map<String, IPLDTOClass> loadIplData(String csvFilePath) {
