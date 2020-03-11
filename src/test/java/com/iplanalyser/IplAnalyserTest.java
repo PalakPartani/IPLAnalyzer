@@ -102,6 +102,14 @@ public class IplAnalyserTest {
         Assert.assertEquals("Lasith Malinga", censusCSV[0].player);
     }
 
+    @Test
+    public void givenCricketBowlingDataAverage_WhenSorted_ShouldReturnBestAveragedPlayer() {
+        iplAnalyser.loadIPLData(IplAnalyser.Player.BOWLER, IPL_BOWLING_FILE_PATH);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.AVG);
+        IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
+        Assert.assertEquals("Krishnappa Gowtham", censusCSV[0].player);
+
+    }
 }
 
 
