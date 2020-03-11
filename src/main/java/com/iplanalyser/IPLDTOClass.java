@@ -9,6 +9,7 @@ public class IPLDTOClass {
     public double strikeRate;
     public double battingAvg;
     public double econ;
+    public int wickets;
 
     public IPLDTOClass(IplRunsCSV iplRunsCSV) {
         runs = iplRunsCSV.runs;
@@ -27,5 +28,6 @@ public class IPLDTOClass {
         strikeRate = iplBallsCSV.strikeRate;
         battingAvg = iplBallsCSV.battingAvg;
         econ = iplBallsCSV.econ;
+        wickets=iplBallsCSV.wickets;
     }
 }
