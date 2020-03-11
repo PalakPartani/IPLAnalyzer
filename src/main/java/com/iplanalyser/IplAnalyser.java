@@ -25,6 +25,7 @@ public class IplAnalyser {
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
         this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
         this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
+        this.sortMap.put(SortField.ECONOMY, Comparator.comparing(stat -> stat.econ));
     }
 
     public int loadIPLData(Player player, String csvFilePath) {

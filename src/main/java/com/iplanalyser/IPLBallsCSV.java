@@ -21,4 +21,8 @@ public class IPLBallsCSV {
 
     @CsvBindByName(column = "5w", required = true)
     public int five;
+
+    @CsvBindByName(column = "Econ", required = true)
+    public double econ;
+
 }

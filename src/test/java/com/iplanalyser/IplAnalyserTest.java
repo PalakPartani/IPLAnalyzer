@@ -79,11 +79,19 @@ public class IplAnalyserTest {
     }
 
     @Test
-    public void givenCricketBowlingData_whenSorted_ShouldReturnBestStrikingRate() {
+    public void givenCricketBowlingStrikeRate_WhenSorted_ShouldReturnBestStrikingRatedPlayer() {
         iplAnalyser.loadIPLData(IplAnalyser.Player.BOWLER, IPL_BOWLING_FILE_PATH);
         String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.STRIKE_RATE);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals("Krishnappa Gowtham", censusCSV[0].player);
+    }
+
+    @Test
+    public void givenCricketBowlingDataEconomy_WhenSorted_ShouldReturnBestEconomyRatedPlayer() {
+        iplAnalyser.loadIPLData(IplAnalyser.Player.BOWLER, IPL_BOWLING_FILE_PATH);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.ECONOMY);
+        IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
+        Assert.assertEquals("Ben Cutting", censusCSV[0].player);
     }
 }
 
