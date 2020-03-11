@@ -1,16 +1,9 @@
 package com.iplanalyser;
 
-import com.csvreader.CSVBuilderFactory;
-import com.csvreader.ICSVBuilder;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class IplAnalyser {
 
@@ -34,7 +27,7 @@ public class IplAnalyser {
     }
 
     public int loadIPLData(Player player,String csvFilePath) {
-        iplMap = IPLLoader.loadIPLData(player, csvFilePath);
+        iplMap =new  IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
         return iplMap.size();
     }
 
