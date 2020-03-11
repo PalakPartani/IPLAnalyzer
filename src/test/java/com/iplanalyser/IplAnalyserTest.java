@@ -93,6 +93,15 @@ public class IplAnalyserTest {
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals("Ben Cutting", censusCSV[0].player);
     }
+
+    @Test
+    public void givenCricketBowlingData5wand4w_WhenSorted_ShouldReturnBestEconomyRatedPlayer() {
+        iplAnalyser.loadIPLData(IplAnalyser.Player.BOWLER, IPL_BOWLING_FILE_PATH);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.FOUR_AND_FIVE_WKCT);
+        IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
+        Assert.assertEquals("Lasith Malinga", censusCSV[0].player);
+    }
+
 }
 
 
