@@ -30,43 +30,25 @@ public class IplAnalyser {
     }
 
     public int loadIplRunsData(String csvFilePath) {
-        return loadIplData(IplRunsCSV.class, csvFilePath);
-    }
-
-    private <E> int loadIplData(Class<E> iplClass, String csvFilePath) {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<E> iterator = csvBuilder.getCSVFileIterator(reader, iplClass);
-            Iterable<E> csvIterable = () -> iterator;
-            if (iplClass.getName() == "com.iplanalyser.IplRunsCSV") {
-                StreamSupport.stream(csvIterable.spliterator(), false).
-                        map(IplRunsCSV.class::cast).
-                        forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
-            } else if (iplClass.getName() == "com.iplanalyser.IPLBallsCSV") {
-                StreamSupport.stream(csvIterable.spliterator(), false).
-                        map(IPLBallsCSV.class::cast).
-                        forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
-                iplCSVList = iplMap.values().stream().collect(Collectors.toList());
-            }
-            return iplMap.size();
-        } catch (IOException e) {
-            throw new IplAnalyserException(e.getMessage(), IplAnalyserException.ExceptionType.CRICKET_FILE_PROBLEM);
-        }
+        iplMap = IPLAdapter.loadIPLData(IplRunsCSV.class, csvFilePath);
+        return iplMap.size();
     }
 
     public int loadIplBallData(String csvFilePath) {
-        return loadIplData(IPLBallsCSV.class, csvFilePath);
+        iplMap = IPLAdapter.loadIPLData(IPLBallsCSV.class, csvFilePath);
+        System.out.println("MAO" + iplMap);
+        return iplMap.size();
     }
 
     public String getSortedCricketData(SortField field) {
 
-        if (iplMap == null || iplMap.size() == 0) {
+        iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+
+        if (iplCSVList == null || iplCSVList.size() == 0) {
             throw new IplAnalyserException("No Data found ", IplAnalyserException.ExceptionType.CRICKET_DATA_NOT_FOUND);
         }
         iplCSVList = iplMap.values().stream().collect(Collectors.toList());
         this.sort(this.sortMap.get(field).reversed());
-        //Collections.reverse(iplCSVList);
-        //  String sortedjson=new Gson().toJson(iplCSVList)
         String sortedStateCensus = new Gson().toJson(iplCSVList);
         return sortedStateCensus;
     }
