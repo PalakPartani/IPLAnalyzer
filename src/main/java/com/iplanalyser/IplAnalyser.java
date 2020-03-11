@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class IplAnalyser {
+
+    public enum Player{
+        BATSMAN,BOWLER
+    }
     List<IPLDTOClass> iplCSVList = null;
     Map<String, IPLDTOClass> iplMap = new HashMap<>();
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
@@ -29,7 +33,15 @@ public class IplAnalyser {
         this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
     }
 
-    public int loadIplRunsData(String csvFilePath) {
+    public int loadIPLData(Player player,String csvFilePath) {
+        iplMap = IPLLoader.loadIPLData(player, csvFilePath);
+        return iplMap.size();
+    }
+
+
+
+
+       /* public int loadIplRunsData(String csvFilePath) {
         iplMap = IPLAdapter.loadIPLData(IplRunsCSV.class, csvFilePath);
         return iplMap.size();
     }
@@ -38,7 +50,7 @@ public class IplAnalyser {
         iplMap = IPLAdapter.loadIPLData(IPLBallsCSV.class, csvFilePath);
         System.out.println("MAO" + iplMap);
         return iplMap.size();
-    }
+    }*/
 
     public String getSortedCricketData(SortField field) {
 

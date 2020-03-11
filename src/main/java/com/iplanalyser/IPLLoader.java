@@ -12,8 +12,17 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
-public class IPLAdapter {
-    public static <E> Map<String, IPLDTOClass> loadIPLData(Class<E> iplClass, String csvFilePath) {
+public class IPLLoader {
+    public static <E> Map<String, IPLDTOClass> loadIPLData(IplAnalyser.Player player, String csvFilePath) {
+        if (player.equals(IplAnalyser.Player.BATSMAN))
+            return loadIPLData(IplRunsCSV.class, csvFilePath);
+        if (player.equals(IplAnalyser.Player.BOWLER))
+            return loadIPLData(IPLBallsCSV.class, csvFilePath);
+        else
+            throw new IplAnalyserException("INVALID", IplAnalyserException.ExceptionType.INVALID_FILE_TYPE);
+    }
+
+    private static <E> Map<String, IPLDTOClass> loadIPLData(Class<E> iplClass, String csvFilePath) {
         Map<String, IPLDTOClass> iplMap = new HashMap<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder icsvBuilder = CSVBuilderFactory.createCSVBuilder();
