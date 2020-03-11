@@ -7,9 +7,10 @@ import java.util.stream.Collectors;
 
 public class IplAnalyser {
 
-    public enum Player{
-        BATSMAN,BOWLER
+    public enum Player {
+        BATSMAN, BOWLER
     }
+
     List<IPLDTOClass> iplCSVList = null;
     Map<String, IPLDTOClass> iplMap = new HashMap<>();
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
@@ -26,8 +27,8 @@ public class IplAnalyser {
         this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
     }
 
-    public int loadIPLData(Player player,String csvFilePath) {
-        iplMap =new  IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
+    public int loadIPLData(Player player, String csvFilePath) {
+        iplMap = new IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
         return iplMap.size();
     }
 

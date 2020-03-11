@@ -7,7 +7,6 @@ public class IPLDTOClass {
     public int four;
     public int six;
     public double strikeRate;
-    public double avg;
     public double battingAvg;
 
     public IPLDTOClass(IplRunsCSV iplRunsCSV) {
