@@ -18,7 +18,7 @@ public class IplAnalyserTest {
     @Test
     public void givenCricketMostRunData_WhenSorted_ShouldReturnMostRuns() {
         try {
-            iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+            iplAnalyser.loadIplRunsData(IPL_MOST_RUNS_FILE_PATH);
             String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.AVG);
             IPLDTOClass[] mostRunCsv = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
             Assert.assertEquals(83.2, mostRunCsv[0].battingAvg, 0.0);
@@ -29,7 +29,7 @@ public class IplAnalyserTest {
     @Test
     public void givenCricketStrikingRateData_WhenSorted_ShouldReturnMostStrikingRuns() {
         try {
-            iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+            iplAnalyser.loadIplRunsData(IPL_MOST_RUNS_FILE_PATH);
             String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.STRIKE_RATE);
             IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
             Assert.assertEquals(333.33, censusCSV[0].strikeRate, 0.0);
@@ -40,7 +40,7 @@ public class IplAnalyserTest {
 
     @Test
     public void givenCricketMaximumFourAndSixes_WhenSorted_ShouldReturnMaxFoursAndSixes() {
-        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        iplAnalyser.loadIplRunsData(IPL_MOST_RUNS_FILE_PATH);
         String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.FOURS_AND_SIX);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals(83, censusCSV[0].four + censusCSV[0].six, 0.0);
@@ -48,7 +48,7 @@ public class IplAnalyserTest {
 
     @Test
     public void givenCricketMaximumFourAndSixes_WhenSorted_ShouldReturnBestStrikingRates() {
-        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        iplAnalyser.loadIplRunsData(IPL_MOST_RUNS_FILE_PATH);
         String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals("Andre Russell", censusCSV[0].player);
@@ -56,7 +56,7 @@ public class IplAnalyserTest {
 
     @Test
     public void givenCricketMaximumAverages_WhenSorted_ShouldReturnBestStrikingRates() {
-        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        iplAnalyser.loadIplRunsData(IPL_MOST_RUNS_FILE_PATH);
         String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.AVG);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals(134.62, censusCSV[0].strikeRate, 0.0);
@@ -64,7 +64,7 @@ public class IplAnalyserTest {
 
     @Test
     public void givenCricketMostRunData_WhenSorted_ShouldReturnBestAverage() {
-        iplAnalyser.loadIplData(IPL_MOST_RUNS_FILE_PATH);
+        iplAnalyser.loadIplRunsData(IPL_MOST_RUNS_FILE_PATH);
         String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.RUNS);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals(69.2, censusCSV[0].battingAvg, 0.0);

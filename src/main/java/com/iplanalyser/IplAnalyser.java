@@ -29,57 +29,56 @@ public class IplAnalyser {
         this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
     }
 
-    public Map<String, IPLDTOClass> loadIplBallData(String csvFilePath) {
+    public int loadIplRunsData(String csvFilePath) {
+        return loadIplData(IplRunsCSV.class, csvFilePath);
+    }
+
+    private <E> int loadIplData(Class<E> iplClass, String csvFilePath) {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IPLBallsCSV> iterator = csvBuilder.getCSVFileIterator(reader, IPLBallsCSV.class);
-            Iterable<IPLBallsCSV> csvIterable = () -> iterator;
-            StreamSupport.stream(csvIterable.spliterator(), false)
-                    .forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
-            iplCSVList = iplMap.values().stream().collect(Collectors.toList());
-
-            System.out.println(iplMap);
-            iplCSVList = iplMap.values().stream().collect(Collectors.toList());
-            return iplMap;
+            Iterator<E> iterator = csvBuilder.getCSVFileIterator(reader, iplClass);
+            Iterable<E> csvIterable = () -> iterator;
+            if (iplClass.getName() == "com.iplanalyser.IplRunsCSV") {
+                StreamSupport.stream(csvIterable.spliterator(), false).
+                        map(IplRunsCSV.class::cast).
+                        forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
+            } else if (iplClass.getName() == "com.iplanalyser.IPLBallsCSV") {
+                StreamSupport.stream(csvIterable.spliterator(), false).
+                        map(IPLBallsCSV.class::cast).
+                        forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
+                iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+            }
+            return iplMap.size();
         } catch (IOException e) {
             throw new IplAnalyserException(e.getMessage(), IplAnalyserException.ExceptionType.CRICKET_FILE_PROBLEM);
         }
     }
 
-    public Map<String, IPLDTOClass> loadIplData(String csvFilePath) {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IplRunsCSV> iterator = csvBuilder.getCSVFileIterator(reader, IplRunsCSV.class);
-            Iterable<IplRunsCSV> csvIterable = () -> iterator;
-            StreamSupport.stream(csvIterable.spliterator(), false)
-                    .forEach(csvName -> iplMap.put(csvName.player, new IPLDTOClass(csvName)));
-            iplCSVList = iplMap.values().stream().collect(Collectors.toList());
-            System.out.println(iplMap);
-            return iplMap;
-        } catch (IOException e) {
-            throw new IplAnalyserException(e.getMessage(), IplAnalyserException.ExceptionType.CRICKET_FILE_PROBLEM);
-        }
+    public int loadIplBallData(String csvFilePath) {
+        return loadIplData(IPLBallsCSV.class, csvFilePath);
     }
 
     public String getSortedCricketData(SortField field) {
 
-        if (iplCSVList == null || iplCSVList.size() == 0) {
+        if (iplMap == null || iplMap.size() == 0) {
             throw new IplAnalyserException("No Data found ", IplAnalyserException.ExceptionType.CRICKET_DATA_NOT_FOUND);
         }
-        this.sort(iplCSVList, this.sortMap.get(field));
-        Collections.reverse(iplCSVList);
+        iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+        this.sort(this.sortMap.get(field).reversed());
+        //Collections.reverse(iplCSVList);
+        //  String sortedjson=new Gson().toJson(iplCSVList)
         String sortedStateCensus = new Gson().toJson(iplCSVList);
         return sortedStateCensus;
     }
 
-    private void sort(List<IPLDTOClass> cricketCSVList, Comparator<IPLDTOClass> censusComparator) {
-        for (int i = 0; i < cricketCSVList.size() - 1; i++) {
-            for (int j = 0; j < cricketCSVList.size() - i - 1; j++) {
-                IPLDTOClass run1 = cricketCSVList.get(j);
-                IPLDTOClass run2 = cricketCSVList.get(j + 1);
+    private void sort(Comparator<IPLDTOClass> censusComparator) {
+        for (int i = 0; i < iplCSVList.size() - 1; i++) {
+            for (int j = 0; j < iplCSVList.size() - i - 1; j++) {
+                IPLDTOClass run1 = iplCSVList.get(j);
+                IPLDTOClass run2 = iplCSVList.get(j + 1);
                 if (censusComparator.compare(run1, run2) > 0) {
-                    cricketCSVList.set(j, run2);
-                    cricketCSVList.set(j + 1, run1);
+                    iplCSVList.set(j, run2);
+                    iplCSVList.set(j + 1, run1);
                 }
             }
         }
