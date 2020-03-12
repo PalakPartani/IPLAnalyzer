@@ -14,7 +14,7 @@ import java.util.stream.StreamSupport;
 
 public abstract class IPLAdapter {
 
-    public abstract Map<String, IPLDTOClass> loadIPLData(String csvFilePath);
+    public abstract Map<String, IPLDTOClass> loadIPLData(String... csvFilePath);
 
     public static <E> Map<String, IPLDTOClass> loadIPLData(Class<E> iplClass, String csvFilePath) {
         Map<String, IPLDTOClass> iplMap = new HashMap<>();

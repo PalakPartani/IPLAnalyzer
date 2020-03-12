@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class IPLAdapterFactory {
 
-    public <E> Map<String, IPLDTOClass> getIPLAdaptor(IplAnalyser.Player player, String csvFilePath) {
+    public <E> Map<String, IPLDTOClass> getIPLAdaptor(IplAnalyser.Player player, String... csvFilePath) {
         if (player.equals(IplAnalyser.Player.BATSMAN))
             return new IplRunsLoader().loadIPLData(csvFilePath);
         if (player.equals(IplAnalyser.Player.BOWLER))

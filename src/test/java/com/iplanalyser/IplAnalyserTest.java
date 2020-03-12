@@ -57,9 +57,9 @@ public class IplAnalyserTest {
     @Test
     public void givenCricketMaximumAverages_WhenSorted_ShouldReturnBestStrikingRates() {
         iplAnalyser.loadIPLData(IplAnalyser.Player.BATSMAN, IPL_MOST_RUNS_FILE_PATH);
-        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.AVG);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.RUNS);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
-        Assert.assertEquals(134.62, censusCSV[0].strikeRate, 0.0);
+        Assert.assertEquals("David Warner", censusCSV[0].player);
     }
 
     @Test
@@ -118,6 +118,13 @@ public class IplAnalyserTest {
         Assert.assertEquals("Imran Tahir", censusCSV[0].player);
     }
 
+    @Test
+    public void givenCricketData_WhenSortedOnAverages_ShouldReturnBestBatsmanAndBowler() {
+        iplAnalyser.loadIPLData(IplAnalyser.Player.BATSMAN, IPL_MOST_RUNS_FILE_PATH,IPL_BOWLING_FILE_PATH);
+        String sortedBattingData = iplAnalyser.getSortedCricketData(SortField.BEST_BATTING_AND_BOWLING_AVERAGE);
+        IPLDTOClass[] battingCensusCSV = new Gson().fromJson(sortedBattingData, IPLDTOClass[].class);
+        Assert.assertEquals("Krishnappa Gowtham",battingCensusCSV[0].player);
+    }
 }
 
 

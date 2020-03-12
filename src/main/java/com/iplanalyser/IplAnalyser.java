@@ -28,26 +28,13 @@ public class IplAnalyser {
         this.sortMap.put(SortField.ECONOMY, Comparator.comparing(stat -> stat.econ));
         this.sortMap.put(SortField.FOUR_AND_FIVE_WKCT, Comparator.comparing(census -> census.four + census.five));
         this.sortMap.put(SortField.MAXIMUM_WICKETS, Comparator.comparing(census -> census.wickets));
+        this.sortMap.put(SortField.BEST_BATTING_AND_BOWLING_AVERAGE,new CompareAverage());
     }
 
-    public int loadIPLData(Player player, String csvFilePath) {
+    public int loadIPLData(Player player, String... csvFilePath) {
         iplMap = new IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
         return iplMap.size();
     }
-
-
-
-
-       /* public int loadIplRunsData(String csvFilePath) {
-        iplMap = IPLAdapter.loadIPLData(IplRunsCSV.class, csvFilePath);
-        return iplMap.size();
-    }
-
-    public int loadIplBallData(String csvFilePath) {
-        iplMap = IPLAdapter.loadIPLData(IPLBallsCSV.class, csvFilePath);
-        System.out.println("MAO" + iplMap);
-        return iplMap.size();
-    }*/
 
     public String getSortedCricketData(SortField field) {
 
