@@ -49,7 +49,7 @@ public class IplAnalyserTest {
     @Test
     public void givenCricketMaximumFourAndSixes_WhenSorted_ShouldReturnBestStrikingRates() {
         iplAnalyser.loadIPLData(IplAnalyser.Player.BATSMAN, IPL_MOST_RUNS_FILE_PATH);
-        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.FOURS_AND_SIX);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
         Assert.assertEquals("Andre Russell", censusCSV[0].player);
     }
@@ -57,9 +57,9 @@ public class IplAnalyserTest {
     @Test
     public void givenCricketMaximumAverages_WhenSorted_ShouldReturnBestStrikingRates() {
         iplAnalyser.loadIPLData(IplAnalyser.Player.BATSMAN, IPL_MOST_RUNS_FILE_PATH);
-        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.RUNS);
+        String sortedCricketData = iplAnalyser.getSortedCricketData(SortField.AVG);
         IPLDTOClass[] censusCSV = new Gson().fromJson(sortedCricketData, IPLDTOClass[].class);
-        Assert.assertEquals("David Warner", censusCSV[0].player);
+        Assert.assertEquals("MS Dhoni", censusCSV[0].player);
     }
 
     @Test
@@ -124,6 +124,15 @@ public class IplAnalyserTest {
         String sortedBattingData = iplAnalyser.getSortedCricketData(SortField.BEST_BATTING_AND_BOWLING_AVERAGE);
         IPLDTOClass[] battingCensusCSV = new Gson().fromJson(sortedBattingData, IPLDTOClass[].class);
         Assert.assertEquals("Krishnappa Gowtham",battingCensusCSV[0].player);
+    }
+
+    @Test
+    public void givenCricketData_WhenSortedOnAllRounder_ShouldReturnAllRounderPlayer() {
+        iplAnalyser.loadIPLData(IplAnalyser.Player.BATSMAN, IPL_MOST_RUNS_FILE_PATH,IPL_BOWLING_FILE_PATH);
+        String sortedBattingData = iplAnalyser.getSortedCricketData(SortField.ALL_ROUNDER);
+        IPLDTOClass[] battingCensusCSV = new Gson().fromJson(sortedBattingData, IPLDTOClass[].class);
+        Assert.assertEquals("Hardik Pandya",battingCensusCSV[0].player);
+
     }
 }
 

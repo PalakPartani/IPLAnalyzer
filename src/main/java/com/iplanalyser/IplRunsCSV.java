@@ -21,4 +21,5 @@ public class IplRunsCSV {
 
     @CsvBindByName(column = "Runs", required = true)
     public int runs;
+    public int wickets;
 }

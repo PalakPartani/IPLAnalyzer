@@ -11,6 +11,7 @@ public class IPLDTOClass {
     public double econ;
     public int wickets;
     public double ballingAvg;
+    public int allWicket;
 
     public IPLDTOClass(IplRunsCSV iplRunsCSV) {
         runs = iplRunsCSV.runs;
@@ -19,6 +20,7 @@ public class IPLDTOClass {
         strikeRate = iplRunsCSV.strikeRate;
         four = iplRunsCSV.four;
         six = iplRunsCSV.six;
+        wickets=iplRunsCSV.wickets;
     }
 
     public IPLDTOClass(IPLBallsCSV iplBallsCSV) {

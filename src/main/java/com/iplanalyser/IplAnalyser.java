@@ -12,51 +12,51 @@ public class IplAnalyser {
     }
 
     List<IPLDTOClass> iplCSVList = null;
-    Map<String, IPLDTOClass> iplMap = new HashMap<>();
+    Map<String, IPLDTOClass> iplStoreMap = new HashMap<>();
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
-    // SortField sortField;
 
     public IplAnalyser() {
         this.sortMap = new HashMap<>();
-        this.iplCSVList = new ArrayList<>();
-
         this.sortMap.put(SortField.RUNS, Comparator.comparing(census -> census.runs));
         this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.battingAvg));
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
+        this.sortMap.put(SortField.FOUR, Comparator.comparing(census -> census.four));
+        this.sortMap.put(SortField.SIX, Comparator.comparing(census -> census.six));
         this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
-        this.sortMap.put(SortField.STRIKING_RATES_WITH_FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
         this.sortMap.put(SortField.ECONOMY, Comparator.comparing(stat -> stat.econ));
         this.sortMap.put(SortField.FOUR_AND_FIVE_WKCT, Comparator.comparing(census -> census.four + census.five));
         this.sortMap.put(SortField.MAXIMUM_WICKETS, Comparator.comparing(census -> census.wickets));
-        this.sortMap.put(SortField.BEST_BATTING_AND_BOWLING_AVERAGE,new CompareAverage());
+        this.sortMap.put(SortField.BEST_BATTING_AND_BOWLING_AVERAGE, new CompareAverage());
+        this.sortMap.put(SortField.ALL_ROUNDER, new CompareAllRounder());
     }
 
     public int loadIPLData(Player player, String... csvFilePath) {
-        iplMap = new IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
-        return iplMap.size();
+        iplStoreMap = new IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
+        return iplStoreMap.size();
     }
 
     public String getSortedCricketData(SortField field) {
 
-        iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+        iplCSVList = iplStoreMap.values().stream().collect(Collectors.toList());
 
         if (iplCSVList == null || iplCSVList.size() == 0) {
             throw new IplAnalyserException("No Data found ", IplAnalyserException.ExceptionType.CRICKET_DATA_NOT_FOUND);
         }
-        iplCSVList = iplMap.values().stream().collect(Collectors.toList());
+        iplCSVList = iplStoreMap.values().stream().collect(Collectors.toList());
+        // this.sort(iplCSVList,new loadSortMap().sortMap.get(field).reversed());
         this.sort(this.sortMap.get(field).reversed());
         String sortedStateCensus = new Gson().toJson(iplCSVList);
         return sortedStateCensus;
     }
 
     private void sort(Comparator<IPLDTOClass> censusComparator) {
-        for (int i = 0; i < iplCSVList.size() - 1; i++) {
-            for (int j = 0; j < iplCSVList.size() - i - 1; j++) {
-                IPLDTOClass run1 = iplCSVList.get(j);
-                IPLDTOClass run2 = iplCSVList.get(j + 1);
-                if (censusComparator.compare(run1, run2) > 0) {
-                    iplCSVList.set(j, run2);
-                    iplCSVList.set(j + 1, run1);
+        for (int i = 0; i < this.iplCSVList.size() - 1; i++) {
+            for (int j = 0; j < this.iplCSVList.size() - i - 1; j++) {
+                IPLDTOClass playerData1 = this.iplCSVList.get(j);
+                IPLDTOClass playerData2 = this.iplCSVList.get(j + 1);
+                if (censusComparator.compare(playerData1, playerData2) > 0) {
+                    this.iplCSVList.set(j, playerData2);
+                    this.iplCSVList.set(j + 1, playerData1);
                 }
             }
         }
