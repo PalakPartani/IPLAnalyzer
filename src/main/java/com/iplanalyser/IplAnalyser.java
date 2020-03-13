@@ -15,21 +15,6 @@ public class IplAnalyser {
     Map<String, IPLDTOClass> iplStoreMap = new HashMap<>();
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
 
-    public IplAnalyser() {
-        this.sortMap = new HashMap<>();
-        this.sortMap.put(SortField.RUNS, Comparator.comparing(census -> census.runs));
-        this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.battingAvg));
-        this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
-        this.sortMap.put(SortField.FOUR, Comparator.comparing(census -> census.four));
-        this.sortMap.put(SortField.SIX, Comparator.comparing(census -> census.six));
-        this.sortMap.put(SortField.FOURS_AND_SIX, Comparator.comparing(census -> census.four + census.six));
-        this.sortMap.put(SortField.ECONOMY, Comparator.comparing(stat -> stat.econ));
-        this.sortMap.put(SortField.FOUR_AND_FIVE_WKCT, Comparator.comparing(census -> census.four + census.five));
-        this.sortMap.put(SortField.MAXIMUM_WICKETS, Comparator.comparing(census -> census.wickets));
-        this.sortMap.put(SortField.BEST_BATTING_AND_BOWLING_AVERAGE, new CompareAverage());
-        this.sortMap.put(SortField.ALL_ROUNDER, new CompareAllRounder());
-    }
-
     public int loadIPLData(Player player, String... csvFilePath) {
         iplStoreMap = new IPLAdapterFactory().getIPLAdaptor(player, csvFilePath);
         return iplStoreMap.size();
@@ -43,8 +28,7 @@ public class IplAnalyser {
             throw new IplAnalyserException("No Data found ", IplAnalyserException.ExceptionType.CRICKET_DATA_NOT_FOUND);
         }
         iplCSVList = iplStoreMap.values().stream().collect(Collectors.toList());
-        // this.sort(iplCSVList,new loadSortMap().sortMap.get(field).reversed());
-        this.sort(this.sortMap.get(field).reversed());
+        this.sort(new loadSortMap().sortMap.get(field).reversed());
         String sortedStateCensus = new Gson().toJson(iplCSVList);
         return sortedStateCensus;
     }

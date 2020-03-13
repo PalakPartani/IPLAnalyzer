@@ -9,6 +9,8 @@ public class loadSortMap {
     Map<SortField, Comparator<IPLDTOClass>> sortMap;
 
     public loadSortMap() {
+        this.sortMap = new HashMap<>();
+
         this.sortMap.put(SortField.RUNS, Comparator.comparing(census -> census.runs));
         this.sortMap.put(SortField.AVG, Comparator.comparing(census -> census.battingAvg));
         this.sortMap.put(SortField.STRIKE_RATE, Comparator.comparing(census -> census.strikeRate));
